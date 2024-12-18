@@ -7,7 +7,7 @@ def fast_power(number: int, power: int) -> int:
 
     while current_power:
         if current_power % 2 == 0:
-            current_power /= 2 # type: ignore
+            current_power /= 2  # type: ignore
             multi **= 2
         else:
             current_power -= 1

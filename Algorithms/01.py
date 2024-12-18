@@ -17,6 +17,7 @@ def convert(number: int, base: int) -> str:
 
     return f'-{result}' if is_negative else result
 
+
 def main(first_number: int, second_number: int, base: int) -> str:
     sum_numbers: int = first_number + second_number
 

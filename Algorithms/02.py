@@ -32,6 +32,8 @@ def add_big_numbers(first_number: str, second_number: str) -> str:
     return result
 
 # private
+
+
 def multiply_big_number_and_small(big_number: str, small_number: str) -> str:
     result: str = ''
     rest: int = 0
@@ -47,6 +49,8 @@ def multiply_big_number_and_small(big_number: str, small_number: str) -> str:
     return result
 
 # public
+
+
 def multiply_numbers(first_number: str, second_number: str) -> str:
     # TODO check negative numbers
 

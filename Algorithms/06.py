@@ -2,6 +2,7 @@
 
 from math import sqrt, floor
 
+
 def is_prime(number: int) -> bool:
     if number < 2:
         return False
