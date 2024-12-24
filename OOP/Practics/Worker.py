@@ -11,10 +11,10 @@
 # добавляет перечисление языков (кроме того, что уже есть в методе строкового представления
 # работника).
 from abc import ABC, abstractmethod
-from typing import List
+
 
 class Worker(ABC):
-    company_phone = "+1-800-555-0199"  # Телефон фирмы
+    company_phone = "+1234567890"
 
     def __init__(self, first_name: str, last_name: str, phone: str = None):
         self.first_name = first_name
@@ -22,33 +22,33 @@ class Worker(ABC):
         self.phone = phone if phone else Worker.company_phone
 
     @abstractmethod
-    def notify(self, message: str):
+    def __str__(self):
         pass
 
-    def __str__(self) -> str:
-        return f"{self.first_name} {self.last_name}, Телефон: {self.phone}"
+    def notify(self, message: str):
+        print(f"Отправляем '{message}' работнику {self.first_name} {
+              self.last_name} на номер {self.phone}")
 
 
 class Developer(Worker):
-    def __init__(self, first_name: str, last_name: str, languages: List[str], phone: str = None):
+    def __init__(self, first_name: str, last_name: str, phone: str = None, languages: list[str] = None):
         super().__init__(first_name, last_name, phone)
-        self.languages = languages
+        self.languages = languages if languages else []
 
-    def notify(self, message: str):
-        print(f"Отправляем '{message}' работнику {self.first_name} {self.last_name} на номер {self.phone}")
-
-    def __str__(self) -> str:
-        languages_str = ', '.join(self.languages)
-        return f"{super().__str__()}, Языки программирования: {languages_str}"
+    def __str__(self):
+        languages_str = ", ".join(
+            self.languages) if self.languages else "не указаны"
+        return f"{self.first_name} {self.last_name}, Телефон: {self.phone}, Языки программирования: {languages_str}"
 
 
-# Пример использования
-if __name__ == "__main__":
-    worker1 = Developer("Иван", "Иванов", ["Python", "JavaScript", "C++"])
-    worker2 = Developer("Анна", "Петрова", ["Java", "Ruby"], "+7-123-456-7890")
+# Примеры использования
+developer = Developer("Иван", "Иванов", "+7987654321",
+                      ["Python", "JavaScript"])
+print(developer)
 
-    print(worker1)  # Иван Иванов, Телефон: +1-800-555-0199, Языки программирования: Python, JavaScript, C++
-    print(worker2)  # Анна Петрова, Телефон: +7-123-456-7890, Языки программирования: Java, Ruby
+developer.notify("Не забудьте сдать отчёт!")
 
-    worker1.notify("У вас новая задача!")  # Отправляем 'У вас новая задача!' работнику Иван Иванов на номер +1-800-555-0199
-    worker2.notify("Собрание в 15:00.")  # Отправляем 'Собрание в 15:00.' работнику Анна Петрова на номер +7-123-456-7890
+developer2 = Developer("Ольга", "Петрова")
+print(developer2)
+
+developer2.notify("Планёрка в 10:00.")

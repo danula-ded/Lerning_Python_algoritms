@@ -1,27 +1,18 @@
-# Напишите описанную ниже систему классов и продемонстрируйте их работу:
-# Mass (масса):
-# У массы есть property value: float, которое по умолчанию при создании равно нулю. У массы есть
-# магический метод для строкового представления в виде “X kg Y g”, то есть объект этого класса с value
-# 1.234 должен отображаться как “1 kg 234 g”. Сеттер property value должен проводить необходимые
-# проверки (масса должна быть не отрицательным числом). У массы также должны быть магические
-# методы сложения, вычитания, сравнения (больше, меньше, больше или равно, меньше или равно,
-# равно, не равно). Продемонстрируйте работоспособность всех методов класса на примерах.
-
 class Mass:
     def __init__(self, value: float = 0.0):
-        self.value = value  # Используем сеттер для установки начального значения
+        self.value = value
 
     @property
-    def value(self) -> float:
+    def value(self):
         return self._value
 
     @value.setter
-    def value(self, val: float):
+    def value(self, val):
         if val < 0:
-            raise ValueError("Масса не может быть отрицательной.")
+            raise ValueError("Масса должна быть неотрицательным числом.")
         self._value = val
 
-    def __str__(self) -> str:
+    def __str__(self):
         kg = int(self.value)
         g = int((self.value - kg) * 1000)
         return f"{kg} kg {g} g"
@@ -29,12 +20,16 @@ class Mass:
     def __add__(self, other):
         if isinstance(other, Mass):
             return Mass(self.value + other.value)
-        return NotImplemented
+        raise TypeError("Складывать можно только объекты класса Mass.")
 
     def __sub__(self, other):
         if isinstance(other, Mass):
-            return Mass(self.value - other.value)
-        return NotImplemented
+            result = self.value - other.value
+            if result < 0:
+                raise ValueError(
+                    "Результат вычитания не может быть отрицательным.")
+            return Mass(result)
+        raise TypeError("Вычитать можно только объекты класса Mass.")
 
     def __eq__(self, other):
         if isinstance(other, Mass):
@@ -67,32 +62,23 @@ class Mass:
         return NotImplemented
 
 
-# Пример использования класса Mass
-if __name__ == "__main__":
-    mass1 = Mass(1.234)
-    mass2 = Mass(2.567)
+mass1 = Mass(1.234)
+mass2 = Mass(2.567)
+mass3 = Mass(0.5)
 
-    print(mass1)  # 1 kg 234 g
-    print(mass2)  # 2 kg 567 g
+print(mass1)
+print(mass2)
+print(mass3)
 
-    # Сложение
-    mass3 = mass1 + mass2
-    print(mass3)  # 3 kg 801 g
+mass4 = mass1 + mass3
+print(mass4)
 
-    # Вычитание
-    mass4 = mass2 - mass1
-    print(mass4)  # 1 kg 333 g
+mass5 = mass2 - mass1
+print(mass5)
 
-    # Сравнения
-    print(mass1 < mass2)   # True
-    print(mass1 <= mass2)  # True
-    print(mass1 > mass2)   # False
-    print(mass1 >= mass2)  # False
-    print(mass1 == mass2)  # False
-    print(mass1 != mass2)  # True
-
-    # Проверка исключения на отрицательное значение
-    try:
-        mass5 = Mass(-5)
-    except ValueError as e:
-        print(e)  # Масса не может быть отрицательной.
+print(mass1 == mass2)
+print(mass1 != mass2)
+print(mass1 < mass2)
+print(mass1 <= mass2)
+print(mass2 > mass3)
+print(mass2 >= mass3)
